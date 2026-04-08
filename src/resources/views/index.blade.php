@@ -273,7 +273,7 @@
                     Contact me
                 </h2>
                 <p class="mt-2 text-lg/8 text-gray-600">
-                    For best performance
+                    <a href="mailto:kamil19862307@gmail.com">kamil19862307@gmail.com</a>
                 </p>
             </div>
             <form action="#" method="POST" class="mx-auto mt-16 max-w-xl sm:mt-20">

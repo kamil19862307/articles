@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('partners', function (Blueprint $table) {
-            $table->id();
+            $table->ulid('id')->primary();
 
             $table->string('name'); // Laravel news
             $table->string('slug')->unique(); // laravel-news
-            $table->string('logo')->nullable(); // Url to logo
+            $table->string('logo'); // Url to logo
             $table->string('description')->nullable();
             $table->boolean('active')->default(true);
 
