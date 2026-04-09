@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Article;
 use App\Models\Partner;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends Factory<Article>
@@ -22,7 +23,7 @@ class ArticleFactory extends Factory
 
         return [
             'name' => $name = $this->faker->sentence(),
-            'slug' => null,
+            'slug' => Str::slug($name),
             'image' => $this->faker->imageUrl(word: $name),
             'ai_summary' => $this->faker->sentence(),
 

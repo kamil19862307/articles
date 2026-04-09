@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Partner;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends Factory<Partner>
@@ -19,7 +20,7 @@ class PartnerFactory extends Factory
     {
         return [
             'name' => $name =  $this->faker->company(),
-            'slug' => null,
+            'slug' => Str::slug($name),
             'logo' => $this->faker->imageUrl(
                 word: $name,
             ),

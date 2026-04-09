@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('ai_summary')->nullable(); // Genarated on save
             $table->text('content');
 
-            $table->foreignId('partner_id')
+            $table->foreignUlid('partner_id')
                 ->nullable()
                 ->index()
                 ->constrained('partners')
