@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Observers\PartnerObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property boll $active
  */
 
-#[ObservedBy([Partner::class])]
+#[ObservedBy([PartnerObserver::class])]
 class Partner extends Model
 {
     /** @use HasFactory<\Database\Factories\PartnerFactory> */
@@ -39,6 +40,6 @@ class Partner extends Model
 
     public function articles(): HasMany
     {
-        return $this->HasMany(Article::class);
+        return $this->hasMany(Article::class);
     }
 }

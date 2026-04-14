@@ -16,7 +16,8 @@ new class extends Component {
             ttl: CacheTtl::HOUR->value,
             callback: function () {
                 return Article::query()
-                    ->select('articles.id', 'articles.name', 'articles.description', 'articles.image')
+                    ->select('articles.id', 'articles.name', 'articles.description', 'articles.image', 'articles.partner_id')
+                    ->with(relations: ['partner'])
                     ->latest()
                     ->limit(6)
                     ->get()
@@ -25,8 +26,7 @@ new class extends Component {
     }
 }; ?>
 <div class="mt-10 grid gap-4 sm:mt-16 lg:grid-cols-3 lg:grid-rows-2">
-
-    @foreach($this->articles as $article)
+@foreach($this->articles as $article)
         <div class="relative">
             <div class="absolute inset-px rounded-lg bg-white max-lg:rounded-t-4xl"></div>
             <div
@@ -38,6 +38,13 @@ new class extends Component {
                     <p class="mt-2 max-w-lg text-sm/6 text-gray-600 text-justify max-lg:text-center">
                         {{ $article['description'] }}
                     </p>
+
+                        @if(!empty($article['partner']['name']))
+                            <p class="mt-2 max-w-lg text-sm/6 text-red-600 text-justify max-lg:text-center">
+                                Partner: {{ $article['partner']['name'] }}
+                            </p>
+                        @endif
+
                 </div>
                 <div class="flex flex-1 items-center justify-center px-8 max-lg:pt-10 max-lg:pb-12 sm:px-10 lg:pb-2">
                     <img src="{{ asset('images/no_image.png') }}" alt="" class="w-full max-lg:max-w-xs"/>
