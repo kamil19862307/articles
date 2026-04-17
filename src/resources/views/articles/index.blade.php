@@ -168,7 +168,6 @@
 
             <livewire:components.latest-articles />
 
-        </div>
     </div>
 </div>
 {{--End Portfolio --}}

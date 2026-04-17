@@ -3,6 +3,7 @@
 use App\Enums\CacheTtl;
 use App\Enums\CacheKeys;
 use App\Models\Article;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\Computed;
 use Livewire\Volt\Component;
@@ -16,8 +17,14 @@ new class extends Component {
             ttl: CacheTtl::HOUR->value,
             callback: function () {
                 return Article::query()
-                    ->select('articles.id', 'articles.name', 'articles.description', 'articles.image', 'articles.partner_id')
+                    ->select('articles.id', 'articles.name', 'articles.slug', 'articles.description', 'articles.image', 'articles.partner_id')
                     ->with(relations: ['partner'])
+                    ->whereHas(relation: 'partner',
+                        callback: fn(Builder $builder): Builder => $builder->where(
+                            column: 'active',
+                            operator: '=',
+                            value: true,
+                        ))
                     ->latest()
                     ->limit(6)
                     ->get()
@@ -26,7 +33,7 @@ new class extends Component {
     }
 }; ?>
 <div class="mt-10 grid gap-4 sm:mt-16 lg:grid-cols-3 lg:grid-rows-2">
-@foreach($this->articles as $article)
+    @foreach($this->articles as $article)
         <div class="relative">
             <div class="absolute inset-px rounded-lg bg-white max-lg:rounded-t-4xl"></div>
             <div
@@ -39,11 +46,15 @@ new class extends Component {
                         {{ $article['description'] }}
                     </p>
 
-                        @if(!empty($article['partner']['name']))
-                            <p class="mt-2 max-w-lg text-sm/6 text-red-600 text-justify max-lg:text-center">
-                                Partner: {{ $article['partner']['name'] }}
-                            </p>
-                        @endif
+                    @if(!empty($article['partner']['name']))
+                        <p class="mt-2 max-w-lg text-sm/6 text-red-600 text-justify max-lg:text-center">
+                            Partner: {{ $article['partner']['name'] }}
+                        </p>
+                    @endif
+
+                    <p class="mt-2 max-w-lg text-sm/6 text-red-600 text-justify max-lg:text-center">
+                        <a href="{{ route('article.show', $article['slug']) }}">Подробнее...</a>
+                    </p>
 
                 </div>
                 <div class="flex flex-1 items-center justify-center px-8 max-lg:pt-10 max-lg:pb-12 sm:px-10 lg:pb-2">
