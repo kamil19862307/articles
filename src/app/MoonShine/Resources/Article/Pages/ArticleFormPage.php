@@ -12,8 +12,11 @@ use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
 use App\MoonShine\Resources\Article\ArticleResource;
 use MoonShine\Support\ListOf;
+use MoonShine\UI\Fields\File;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Components\Layout\Box;
+use MoonShine\EasyMde\Fields\Markdown;
+use MoonShine\UI\Fields\Text;
 use Throwable;
 
 
@@ -30,6 +33,15 @@ class ArticleFormPage extends FormPage
         return [
             Box::make([
                 ID::make(),
+                Text::make('Name'),
+                Text::make('Slug'),
+                File::make('Image'),
+                Markdown::make('Description')
+                    ->addOption('minHeight', '140px'),
+                Text::make('Canonical_url'),
+                Text::make('Ai_summary'),
+                Text::make('Content'),
+                Text::make('Partner_id'),
             ]),
         ];
     }

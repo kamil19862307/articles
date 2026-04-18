@@ -31,8 +31,9 @@ class ArticleIndexPage extends IndexPage
     protected function fields(): iterable
     {
         return [
-            Text::make('name'),
-            Image::make('image'),
+            Text::make('Name'),
+            Image::make('Image'),
+            Text::make('Partner_id'),
         ];
     }
 

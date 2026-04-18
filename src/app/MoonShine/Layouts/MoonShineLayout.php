@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Layouts;
 
+use App\MoonShine\Resources\Article\ArticleResource;
 use MoonShine\Laravel\Layouts\AppLayout;
-use MoonShine\ColorManager\Palettes\RetroPalette;
+use MoonShine\ColorManager\Palettes\LimePalette;
 use MoonShine\ColorManager\ColorManager;
 use MoonShine\Contracts\ColorManager\ColorManagerContract;
 use MoonShine\Contracts\ColorManager\PaletteContract;
-use App\MoonShine\Resources\Article\ArticleResource;
 use MoonShine\MenuManager\MenuItem;
 
 final class MoonShineLayout extends AppLayout
@@ -17,7 +17,7 @@ final class MoonShineLayout extends AppLayout
     /**
      * @var null|class-string<PaletteContract>
      */
-    protected ?string $palette = RetroPalette::class;
+    protected ?string $palette = LimePalette::class;
 
     protected function assets(): array
     {

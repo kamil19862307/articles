@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Article\Pages;
 
+use MoonShine\EasyMde\Fields\Markdown;
 use MoonShine\Laravel\Pages\Crud\DetailPage;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\Contracts\UI\FieldContract;
 use App\MoonShine\Resources\Article\ArticleResource;
 use MoonShine\Support\ListOf;
+use MoonShine\UI\Fields\File;
 use MoonShine\UI\Fields\ID;
+use MoonShine\UI\Fields\Text;
 use Throwable;
 
 
@@ -26,6 +29,16 @@ class ArticleDetailPage extends DetailPage
     {
         return [
             ID::make(),
+            Text::make('Name'),
+            Text::make('Slug'),
+            File::make('Image'),
+            Markdown::make('Description'),
+            Text::make('Canonical_url'),
+            Text::make('Ai_summary'),
+            Text::make('Content'),
+            Text::make('Partner_id'),
+            Text::make('Created_at'),
+            Text::make('Updated_at'),
         ];
     }
 
