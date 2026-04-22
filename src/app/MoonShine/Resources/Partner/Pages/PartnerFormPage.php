@@ -2,42 +2,35 @@
 
 declare(strict_types=1);
 
-namespace App\MoonShine\Resources\Article\Pages;
+namespace App\MoonShine\Resources\Partner\Pages;
 
-use MoonShine\Laravel\Pages\Crud\DetailPage;
+use MoonShine\Laravel\Pages\Crud\FormPage;
 use MoonShine\Contracts\UI\ComponentContract;
-use MoonShine\UI\Components\Table\TableBuilder;
+use MoonShine\Contracts\UI\FormBuilderContract;
+use MoonShine\UI\Components\FormBuilder;
 use MoonShine\Contracts\UI\FieldContract;
-use App\MoonShine\Resources\Article\ArticleResource;
+use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
+use App\MoonShine\Resources\Partner\PartnerResource;
 use MoonShine\Support\ListOf;
-use MoonShine\UI\Fields\File;
 use MoonShine\UI\Fields\ID;
-use MoonShine\UI\Fields\Text;
+use MoonShine\UI\Components\Layout\Box;
 use Throwable;
 
 
 /**
- * @extends DetailPage<ArticleResource>
+ * @extends FormPage<PartnerResource>
  */
-class ArticleDetailPage extends DetailPage
+class PartnerFormPage extends FormPage
 {
     /**
-     * @return list<FieldContract>
+     * @return list<ComponentContract|FieldContract>
      */
     protected function fields(): iterable
     {
         return [
-            ID::make(),
-            Text::make('Name'),
-            Text::make('Slug'),
-            File::make('Image'),
-            Text::make('Description'),
-            Text::make('Canonical_url'),
-            Text::make('Ai_summary'),
-            Text::make('Content'),
-            Text::make('Partner_id'),
-            Text::make('Created_at'),
-            Text::make('Updated_at'),
+            Box::make([
+                ID::make(),
+            ]),
         ];
     }
 
@@ -46,12 +39,22 @@ class ArticleDetailPage extends DetailPage
         return parent::buttons();
     }
 
+    protected function formButtons(): ListOf
+    {
+        return parent::formButtons();
+    }
+
+    protected function rules(DataWrapperContract $item): array
+    {
+        return [];
+    }
+
     /**
-     * @param  TableBuilder  $component
+     * @param  FormBuilder  $component
      *
-     * @return TableBuilder
+     * @return FormBuilder
      */
-    protected function modifyDetailComponent(ComponentContract $component): ComponentContract
+    protected function modifyFormComponent(FormBuilderContract $component): FormBuilderContract
     {
         return $component;
     }
