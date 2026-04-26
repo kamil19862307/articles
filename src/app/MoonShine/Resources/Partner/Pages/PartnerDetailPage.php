@@ -10,7 +10,10 @@ use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\Contracts\UI\FieldContract;
 use App\MoonShine\Resources\Partner\PartnerResource;
 use MoonShine\Support\ListOf;
+use MoonShine\UI\Fields\Checkbox;
 use MoonShine\UI\Fields\ID;
+use MoonShine\UI\Fields\Image;
+use MoonShine\UI\Fields\Text;
 use Throwable;
 
 
@@ -25,7 +28,11 @@ class PartnerDetailPage extends DetailPage
     protected function fields(): iterable
     {
         return [
-            ID::make(),
+            Text::make('Name'),
+            Image::make('Logo'),
+            Checkbox::make('Active', 'active'),
+            Text::make('Created_at'),
+            Text::make('Updated_at'),
         ];
     }
 
