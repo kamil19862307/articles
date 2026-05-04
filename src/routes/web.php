@@ -5,3 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [ArticleController::class, 'index'])->name('article.index');
 Route::get('/article/{slug}', [ArticleController::class, 'show'])->name('article.show');
+
+Route::get('/image', function () {
+    return view('image');
+});
