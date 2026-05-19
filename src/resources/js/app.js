@@ -42,7 +42,10 @@ fileInput.addEventListener('change', (e) => {
 cropBtn.addEventListener('click', () => {
     if (!cropper) return;
 
-    const canvas = cropper.getCroppedCanvas();
+    const canvas = cropper.getCroppedCanvas({
+        width: 500,
+        height: 500,
+    });
 
     // Показываем preview справа
     output.src = canvas.toDataURL('image/png');
@@ -75,13 +78,21 @@ sendBtn.addEventListener('click', async () => {
             }
         });
 
+        // Проверяем статус ответа
+        if (!response.ok) {
+            throw new Error(`Ошибка сервера: ${response.status}`);
+        }
+
         const data = await response.json();
 
         console.log(data);
 
         alert('Изображение загружено');
+
     } catch (error) {
         console.error(error);
+
+        alert(error.message);
     }
 });
 

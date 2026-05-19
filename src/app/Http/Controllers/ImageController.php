@@ -14,7 +14,7 @@ class ImageController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5048',
         ]);
 
         $image = $request->file('image')->store('images', 'public');
