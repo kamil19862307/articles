@@ -8,6 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Cropper Image</title>
     @vite('resources/js/app.js')
+    @vite('resources/js/cropper.js')
     <style>
         /* Размер контейнера */
         #image {
