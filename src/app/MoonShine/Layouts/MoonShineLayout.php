@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\MoonShine\Layouts;
 
 use App\MoonShine\Resources\Article\ArticleResource;
+use Illuminate\Support\Facades\Vite;
+use MoonShine\AssetManager\Css;
+use MoonShine\AssetManager\Js;
 use MoonShine\Laravel\Layouts\AppLayout;
 use MoonShine\ColorManager\Palettes\LimePalette;
 use MoonShine\ColorManager\ColorManager;
@@ -23,6 +26,9 @@ final class MoonShineLayout extends AppLayout
     protected function assets(): array
     {
         return [
+            Css::make(Vite::asset('resources/app.css')),
+            Js::make(Vite::asset('resources/js/app.js')),
+            Js::make(Vite::asset('resources/js/cropper.js')),
             ...parent::assets(),
         ];
     }

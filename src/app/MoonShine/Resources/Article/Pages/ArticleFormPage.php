@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Article\Pages;
 
+use App\MoonShine\Fields\Cropper;
 use App\MoonShine\Resources\Partner\PartnerResource;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Pages\Crud\FormPage;
@@ -17,7 +18,6 @@ use MoonShine\Support\ListOf;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\EasyMde\Fields\Markdown;
-use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Text;
 use Throwable;
 
@@ -37,8 +37,11 @@ class ArticleFormPage extends FormPage
                 ID::make(),
                 Text::make('Name'),
                 Text::make('Slug'),
-                Image::make('Image')
+
+                // Кастомное поле загрузки изображения с возможностью обрезать
+                Cropper::make('Image')
                     ->dir('articles'),
+
                 Markdown::make('Description')
                     ->addOption('minHeight', '140px'),
                 Text::make('Canonical_url'),

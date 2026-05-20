@@ -1,93 +1,62 @@
 import Cropper from 'cropperjs';
 import 'cropperjs/dist/cropper.css';
 
-const image = document.getElementById('image');
-const cropBtn = document.getElementById('cropImageBtn');
-const sendBtn = document.getElementById('sendImageBtn');
-const output = document.getElementById('output');
-const fileInput = document.getElementById('fileInput');
+document.querySelectorAll('.cropper-field').forEach((field) => {
 
-let cropper = null;
-let croppedBlob = null;
+    const image = field.querySelector('.cropper-image');
+    const cropBtn = field.querySelector('.cropper-button');
+    const output = field.querySelector('.cropper-output');
+    const fileInput = field.querySelector('.cropper-input');
 
-// Загрузка изображения
-fileInput.addEventListener('change', (e) => {
-    const file = e.target.files[0];
+    let cropper = null;
+    let croppedBlob = null;
 
-    if (!file) return;
+    // Загрузка изображения
+    fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
 
-    const reader = new FileReader();
+        if (!file) return;
 
-    reader.onload = (event) => {
-        image.src = event.target.result;
+        const reader = new FileReader();
 
-        if (cropper) {
-            cropper.destroy();
-        }
+        reader.onload = (event) => {
+            image.src = event.target.result;
 
-        cropper = new Cropper(image, {
-            aspectRatio: 0,
-            viewMode: 1,
-        });
-    };
+            // Удаляем старый cropper
+            if (cropper) {
+                cropper.destroy();
+            }
 
-    reader.readAsDataURL(file);
-});
+            // Создаём новый
+            cropper = new Cropper(image, {
+                aspectRatio: 0,
+                viewMode: 0,
+            });
+        };
 
-// Обрезка изображения
-cropBtn.addEventListener('click', () => {
-    if (!cropper) return;
-
-    const canvas = cropper.getCroppedCanvas({
-        width: 500,
-        height: 500,
+        reader.readAsDataURL(file);
     });
 
-    // Показываем preview справа
-    output.src = canvas.toDataURL('image/png');
+    // Обрезка изображения
+    cropBtn.addEventListener('click', () => {
 
-    // Сохраняем blob для будущей отправки
-    canvas.toBlob((blob) => {
-        croppedBlob = blob;
-    }, 'image/png');
-});
+        if (!cropper) return;
 
-// Отправка на сервер
-sendBtn.addEventListener('click', async () => {
-    if (!croppedBlob) {
-        alert('Сначала обрежьте изображение');
-        return;
-    }
-
-    const formData = new FormData();
-
-    formData.append('image', croppedBlob, 'cropped.png');
-
-    try {
-        const response = await fetch('/image-upload', {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRF-TOKEN': document
-                    .querySelector('meta[name="csrf-token"]')
-                    .content
-            }
+        const canvas = cropper.getCroppedCanvas({
+            width: 500,
+            height: 500,
         });
 
-        // Проверяем статус ответа
-        if (!response.ok) {
-            throw new Error(`Ошибка сервера: ${response.status}`);
-        }
+        // Preview
+        output.src = canvas.toDataURL('image/png');
 
-        const data = await response.json();
+        // Blob для будущей отправки
+        canvas.toBlob((blob) => {
+            croppedBlob = blob;
+        }, 'image/png');
+    });
 
-        console.log(data);
+    // Пока просто debug
+    console.log('Cropper field initialized', field);
 
-        alert('Изображение загружено');
-
-    } catch (error) {
-        console.error(error);
-
-        alert(error.message);
-    }
 });
