@@ -17,12 +17,14 @@
     }
 
     .cropper-image {
-        max-width: 100%;
+        width: 500px;
+        height: 500px;
         display: block;
     }
 
     .cropper-output {
-        width: auto;
+        width: 500px;
+        height: 500px;
         border: 1px solid #ccc;
     }
 </style>
@@ -31,6 +33,7 @@
 
     <input
         type="file"
+        name="{{ $column }}"
         class="cropper-input bgc-success"
         accept="image/*"
     >
@@ -41,7 +44,12 @@
             <img class="cropper-image">
         </div>
 
-        <img class="cropper-output">
+        @if($value)
+            <img
+                src="{{ Storage::url($value) }}"
+                class="cropper-output"
+            >
+        @endif
 
     </div>
 

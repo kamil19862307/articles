@@ -9,10 +9,10 @@ document.querySelectorAll('.cropper-field').forEach((field) => {
     const fileInput = field.querySelector('.cropper-input');
 
     let cropper = null;
-    let croppedBlob = null;
 
     // Загрузка изображения
     fileInput.addEventListener('change', (e) => {
+
         const file = e.target.files[0];
 
         if (!file) return;
@@ -20,14 +20,15 @@ document.querySelectorAll('.cropper-field').forEach((field) => {
         const reader = new FileReader();
 
         reader.onload = (event) => {
+
             image.src = event.target.result;
 
-            // Удаляем старый cropper
+            // Уничтожаем старый cropper
             if (cropper) {
                 cropper.destroy();
             }
 
-            // Создаём новый
+            // Создаём новый cropper
             cropper = new Cropper(image, {
                 aspectRatio: 0,
                 viewMode: 0,
@@ -37,7 +38,7 @@ document.querySelectorAll('.cropper-field').forEach((field) => {
         reader.readAsDataURL(file);
     });
 
-    // Обрезка изображения
+    // Crop button
     cropBtn.addEventListener('click', () => {
 
         if (!cropper) return;
@@ -47,16 +48,34 @@ document.querySelectorAll('.cropper-field').forEach((field) => {
             height: 500,
         });
 
-        // Preview
+        // Показываем preview
         output.src = canvas.toDataURL('image/png');
 
-        // Blob для будущей отправки
+        // Создаём Blob
         canvas.toBlob((blob) => {
-            croppedBlob = blob;
+
+            // Создаём новый File
+            const croppedFile = new File(
+                [blob],
+                'cropped-image.png',
+                {
+                    type: 'image/png',
+                    lastModified: Date.now(),
+                }
+            );
+
+            // Создаём DataTransfer
+            const dataTransfer = new DataTransfer();
+
+            // Добавляем новый файл
+            dataTransfer.items.add(croppedFile);
+
+            // Подменяем files у input
+            fileInput.files = dataTransfer.files;
+
+            console.log('Cropped file inserted into input');
+
         }, 'image/png');
     });
-
-    // Пока просто debug
-    console.log('Cropper field initialized', field);
 
 });
