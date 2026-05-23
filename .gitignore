@@ -1,10 +1,11 @@
 # IDE
 .idea/
 
+/node_modules
+/vendor
+.env
+
 # Laravel
 src/.env
 src/vendor
 src/node_modules
-
-# Docker / env
-.env
